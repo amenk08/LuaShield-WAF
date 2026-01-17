@@ -1,0 +1,307 @@
+{
+    "name": "XSS Rules",
+    "version": "2.0.0",
+    "description": "Enhanced detection rules for Cross-Site Scripting attacks",
+    "rules": [
+        {
+            "id": "xss-001",
+            "name": "Script Tag",
+            "description": "Detects script tag injection",
+            "pattern": "(?i)<script[^>]*>[\\s\\S]*?</script>",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["xss", "owasp-a03"]
+        },
+        {
+            "id": "xss-002",
+            "name": "Script Tag Open",
+            "description": "Detects opening script tags",
+            "pattern": "(?i)<\\s*script[^>]*>?",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["xss"]
+        },
+        {
+            "id": "xss-003",
+            "name": "Event Handlers",
+            "description": "Detects HTML event handler injection",
+            "pattern": "(?i)\\bon(?:abort|afterprint|beforeprint|beforeunload|blur|canplay|canplaythrough|change|click|contextmenu|copy|cut|dblclick|drag|dragend|dragenter|dragleave|dragover|dragstart|drop|durationchange|emptied|ended|error|focus|focusin|focusout|hashchange|input|invalid|keydown|keypress|keyup|load|loadeddata|loadedmetadata|loadstart|message|mousedown|mouseenter|mouseleave|mousemove|mouseout|mouseover|mouseup|mousewheel|offline|online|pagehide|pageshow|paste|pause|play|playing|popstate|progress|ratechange|reset|resize|scroll|search|seeked|seeking|select|show|stalled|storage|submit|suspend|timeupdate|toggle|touchcancel|touchend|touchmove|touchstart|transitionend|unload|volumechange|waiting|wheel|animationend|animationiteration|animationstart)\\s*=",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["xss"]
+        },
+        {
+            "id": "xss-004",
+            "name": "JavaScript Protocol",
+            "description": "Detects javascript: protocol usage",
+            "pattern": "(?i)(?:javascript|vbscript|livescript|mocha|data)\\s*:",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["xss"]
+        },
+        {
+            "id": "xss-005",
+            "name": "Data URI XSS",
+            "description": "Detects data: URI with scripts",
+            "pattern": "(?i)data:\\s*(?:text/html|application/javascript|text/javascript)[^,]*,",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["xss"]
+        },
+        {
+            "id": "xss-006",
+            "name": "CSS Expression",
+            "description": "Detects CSS expression() for XSS",
+            "pattern": "(?i)(?:expression|behavior|binding|moz-binding)\\s*\\(",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["xss"]
+        },
+        {
+            "id": "xss-007",
+            "name": "Iframe Injection",
+            "description": "Detects iframe tag injection",
+            "pattern": "(?i)<\\s*iframe[^>]*>",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["xss"]
+        },
+        {
+            "id": "xss-008",
+            "name": "Object/Embed Tag",
+            "description": "Detects object/embed/applet tags",
+            "pattern": "(?i)<\\s*(?:object|embed|applet|form|meta|base|link|import|style)[^>]*>",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["xss"]
+        },
+        {
+            "id": "xss-009",
+            "name": "SVG XSS",
+            "description": "Detects SVG-based XSS",
+            "pattern": "(?i)<\\s*svg[^>]*(?:on\\w+\\s*=|javascript:|<\\s*script)[^>]*>?",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["xss"]
+        },
+        {
+            "id": "xss-010",
+            "name": "IMG XSS",
+            "description": "Detects img tag with event handlers",
+            "pattern": "(?i)<\\s*img[^>]*(?:onerror|onload|onabort|onfocusin|onfocusout)\\s*=[^>]*>?",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["xss"]
+        },
+        {
+            "id": "xss-011",
+            "name": "Body XSS",
+            "description": "Detects body tag with event handlers",
+            "pattern": "(?i)<\\s*body[^>]*on\\w+\\s*=[^>]*>",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["xss"]
+        },
+        {
+            "id": "xss-012",
+            "name": "Alert/Prompt/Confirm",
+            "description": "Detects JavaScript popup functions",
+            "pattern": "(?i)(?:alert|prompt|confirm|console\\.(?:log|warn|error|info|debug))\\s*\\(",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "high",
+            "tags": ["xss"]
+        },
+        {
+            "id": "xss-013",
+            "name": "Document Object Access",
+            "description": "Detects document object manipulation",
+            "pattern": "(?i)(?:document\\.(?:cookie|domain|write|writeln|location|documentElement|body|forms|images|links|scripts|createElement|getElementById|querySelector)|window\\.(?:location|open|eval|Function|setTimeout|setInterval))\\s*[\\(=]",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["xss", "dom"]
+        },
+        {
+            "id": "xss-014",
+            "name": "Eval Execution",
+            "description": "Detects eval-like function calls",
+            "pattern": "(?i)(?:eval|Function|setTimeout|setInterval|execScript|setImmediate)\\s*\\([^)]*['\"`]",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["xss"]
+        },
+        {
+            "id": "xss-015",
+            "name": "innerHTML/outerHTML",
+            "description": "Detects DOM manipulation methods",
+            "pattern": "(?i)(?:innerHTML|outerHTML|insertAdjacentHTML|document\\.write)\\s*[=\\(]",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["xss", "dom"]
+        },
+        {
+            "id": "xss-016",
+            "name": "Template Injection",
+            "description": "Detects template injection patterns",
+            "pattern": "(?:\\{\\{[^}]+\\}\\}|\\$\\{[^}]+\\}|<%[^%]+%>|\\[\\[[^\\]]+\\]\\])",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "high",
+            "tags": ["xss", "template"]
+        },
+        {
+            "id": "xss-017",
+            "name": "Angular XSS",
+            "description": "Detects AngularJS-specific XSS",
+            "pattern": "(?i)(?:ng-(?:click|mousedown|mouseup|mouseover|mouseout|keydown|keyup|keypress|change|model|bind|init|include)|\\{\\{.*constructor.*\\}\\})",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "high",
+            "tags": ["xss", "angular"]
+        },
+        {
+            "id": "xss-018",
+            "name": "Video/Audio Tags",
+            "description": "Detects video/audio XSS",
+            "pattern": "(?i)<\\s*(?:video|audio|source|track)[^>]*(?:on\\w+\\s*=|javascript:)[^>]*>?",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["xss"]
+        },
+        {
+            "id": "xss-019",
+            "name": "Math/Marquee Tags",
+            "description": "Detects exotic HTML tag XSS",
+            "pattern": "(?i)<\\s*(?:math|marquee|isindex|keygen|details|frameset|bgsound|xml)[^>]*>",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "high",
+            "tags": ["xss"]
+        },
+        {
+            "id": "xss-020",
+            "name": "Input/Button XSS",
+            "description": "Detects input/button XSS with handlers",
+            "pattern": "(?i)<\\s*(?:input|button|textarea|select)[^>]*(?:on\\w+\\s*=|autofocus)[^>]*>?",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "high",
+            "tags": ["xss"]
+        },
+        {
+            "id": "xss-021",
+            "name": "SVG Use/Animate",
+            "description": "Detects SVG use and animate elements",
+            "pattern": "(?i)<\\s*(?:use|animate(?:Transform)?|set)\\s+[^>]*(?:href|xlink:href)\\s*=",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "high",
+            "tags": ["xss", "svg"]
+        },
+        {
+            "id": "xss-022",
+            "name": "Base Tag Injection",
+            "description": "Detects base tag hijacking",
+            "pattern": "(?i)<\\s*base[^>]*href\\s*=",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["xss", "hijack"]
+        },
+        {
+            "id": "xss-023",
+            "name": "Meta Redirect",
+            "description": "Detects meta refresh redirection",
+            "pattern": "(?i)<\\s*meta[^>]*(?:http-equiv\\s*=\\s*['\"]?refresh|content\\s*=\\s*['\"][^'\"]*url\\s*=)",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "high",
+            "tags": ["xss", "redirect"]
+        },
+        {
+            "id": "xss-024",
+            "name": "XSS Getters/Setters",
+            "description": "Detects prototype manipulation XSS",
+            "pattern": "(?i)(?:__proto__|prototype|constructor)\\s*[.\\[]",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["xss", "prototype"]
+        },
+        {
+            "id": "xss-025",
+            "name": "Fetch/XHR Injection",
+            "description": "Detects fetch/XMLHttpRequest injection",
+            "pattern": "(?i)(?:fetch\\s*\\(|new\\s+XMLHttpRequest|\\$\\.(?:ajax|get|post)|axios\\.|import\\s*\\()",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "high",
+            "tags": ["xss", "ajax"]
+        },
+        {
+            "id": "xss-026",
+            "name": "Tag Attribute Injection",
+            "description": "Detects attribute injection attempts",
+            "pattern": "(?i)(?:['\"]\\s*(?:on\\w+|style|class|id|src|href|action|formaction|data)\\s*=)",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "high",
+            "tags": ["xss"]
+        },
+        {
+            "id": "xss-027",
+            "name": "JSONP Callback",
+            "description": "Detects JSONP callback injection",
+            "pattern": "(?i)(?:callback|cb|jsonp|jsonpcallback)\\s*=\\s*[^&]*[<>\"'(){}\\[\\]]",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "high",
+            "tags": ["xss", "jsonp"]
+        },
+        {
+            "id": "xss-028",
+            "name": "DOM Clobbering",
+            "description": "Detects DOM clobbering attempts",
+            "pattern": "(?i)(?:name\\s*=\\s*['\"](?:location|document|window|top|self|parent)['\"]|id\\s*=\\s*['\"](?:location|document|window|top|self|parent)['\"])",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "high",
+            "tags": ["xss", "dom"]
+        },
+        {
+            "id": "xss-029",
+            "name": "CSS Import XSS",
+            "description": "Detects CSS import-based attacks",
+            "pattern": "(?i)(?:@import\\s+['\"]?(?:http|data)|style\\s*=\\s*['\"][^'\"]*(?:url|import|expression))",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "high",
+            "tags": ["xss", "css"]
+        },
+        {
+            "id": "xss-030",
+            "name": "Mutation XSS",
+            "description": "Detects mutation-based XSS patterns",
+            "pattern": "(?i)(?:<noscript|<template|<xmp|<plaintext|<listing|<comment)[^>]*>",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["xss", "mutation"]
+        }
+    ]
+}

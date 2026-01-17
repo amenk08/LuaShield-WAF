@@ -1,0 +1,247 @@
+{
+    "name": "Encoding Bypass Rules",
+    "version": "2.0.0",
+    "description": "Enhanced detection rules for encoding bypass attacks",
+    "rules": [
+        {
+            "id": "enc-001",
+            "name": "Double URL Encoding",
+            "description": "Detects double URL encoding bypass (%25XX)",
+            "pattern": "%25[0-9a-fA-F]{2}",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["evasion", "encoding"]
+        },
+        {
+            "id": "enc-002",
+            "name": "Unicode Encoding",
+            "description": "Detects %uXXXX unicode encoding",
+            "pattern": "%u[0-9a-fA-F]{4}",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["evasion", "encoding"]
+        },
+        {
+            "id": "enc-003",
+            "name": "Overlong UTF-8",
+            "description": "Detects overlong UTF-8 encoding bypass",
+            "pattern": "(?:%c0%ae|%c1%9c|%c0%af|%e0%80%ae|%c0%2e|%c0%5c|%c1%5c|%c1%2f|%e0%80%af)",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["evasion", "encoding", "utf8"]
+        },
+        {
+            "id": "enc-004",
+            "name": "Null Byte Injection",
+            "description": "Detects null byte injection attempts",
+            "pattern": "(?:%00|\\\\x00|\\\\0|\\x00|\\u0000)",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["injection", "null-byte"]
+        },
+        {
+            "id": "enc-005",
+            "name": "Triple URL Encoding",
+            "description": "Detects triple URL encoding bypass (%2525XX)",
+            "pattern": "%2525[0-9a-fA-F]{2}",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["evasion", "encoding"]
+        },
+        {
+            "id": "enc-006",
+            "name": "HTML Entity Numeric",
+            "description": "Detects HTML entity encoded dangerous chars",
+            "pattern": "(?:&#(?:60|62|34|39|x3[cCeE]|x22|x27|x26|x3b|x2f);?)",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["xss", "encoding"]
+        },
+        {
+            "id": "enc-007",
+            "name": "Hex Encoded Attack",
+            "description": "Detects hex encoded payloads",
+            "pattern": "(?:\\\\x(?:3[cCeE]|22|27|2[fF]|5[cC]|00|0[aAdD]|3[bB]|7[cC]))",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "high",
+            "tags": ["encoding", "hex"]
+        },
+        {
+            "id": "enc-008",
+            "name": "UTF-7 Encoding",
+            "description": "Detects UTF-7 encoding bypass",
+            "pattern": "(?:\\+AD[wWxXyYzZ][-A-Za-z0-9+/]|\\+ACM-|\\+ADw-|\\+AD4-|\\+ACI-|\\+ACc-)",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["xss", "encoding", "utf7"]
+        },
+        {
+            "id": "enc-009",
+            "name": "Backslash Encoding",
+            "description": "Detects backslash-based encoding",
+            "pattern": "(?:\\\\[uU][0-9a-fA-F]{4}|\\\\[0-7]{1,3}|\\\\x[0-9a-fA-F]{2})",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "high",
+            "tags": ["encoding"]
+        },
+        {
+            "id": "enc-010",
+            "name": "Mixed Encoding Path Traversal",
+            "description": "Detects mixed encoding in path traversal",
+            "pattern": "(?:%2e%2e[%2f%5c]|%2e%2e/|\\.\\.%2f|%252e%252e|%c0%ae%c0%ae|%uff0e%uff0e)",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["path-traversal", "encoding"]
+        },
+        {
+            "id": "enc-011",
+            "name": "IIS Unicode",
+            "description": "Detects IIS-specific unicode encoding",
+            "pattern": "(?:%u002e|%u002f|%u005c|%uff0e|%uff0f|%uff3c|%u0027|%u003c|%u003e)",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["path-traversal", "encoding", "iis"]
+        },
+        {
+            "id": "enc-012",
+            "name": "Invalid Encoding",
+            "description": "Detects invalid/malformed percent encoding",
+            "pattern": "%(?![0-9a-fA-F]{2}|u[0-9a-fA-F]{4})[a-zA-Z]",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "high",
+            "tags": ["encoding", "malformed"]
+        },
+        {
+            "id": "enc-013",
+            "name": "Base64 Encoded Attacks",
+            "description": "Detects base64 patterns commonly used for encoded attacks",
+            "pattern": "(?:PHNjcmlwdD|amF2YXNjcmlwdDo|b25lcnJvcj|b25sb2Fk|ZXZhbCg|YWxlcnQo|ZG9jdW1lbnQu|d2luZG93Lg)",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["encoding", "base64", "xss"]
+        },
+        {
+            "id": "enc-014",
+            "name": "HTML Entity Named",
+            "description": "Detects named HTML entities for script injection",
+            "pattern": "(?:&(?:lt|gt|amp|quot|apos|nbsp|#x3c|#x3e|#60|#62);)",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "high",
+            "tags": ["xss", "encoding"]
+        },
+        {
+            "id": "enc-015",
+            "name": "Octal Encoding",
+            "description": "Detects octal encoded characters",
+            "pattern": "(?:\\\\[0-3][0-7]{2})",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "high",
+            "tags": ["encoding", "octal"]
+        },
+        {
+            "id": "enc-016",
+            "name": "Half-width Fullwidth Forms",
+            "description": "Detects Unicode fullwidth character evasion",
+            "pattern": "(?:[\\uff01-\\uff5e])",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "high",
+            "tags": ["encoding", "unicode", "evasion"]
+        },
+        {
+            "id": "enc-017",
+            "name": "URL Encoded SQL Keywords",
+            "description": "Detects URL encoded SQL injection keywords",
+            "pattern": "(?:%73%65%6c%65%63%74|%75%6e%69%6f%6e|%69%6e%73%65%72%74|%64%65%6c%65%74%65|%64%72%6f%70|%55%4e%49%4f%4e|%53%45%4c%45%43%54)",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["sqli", "encoding"]
+        },
+        {
+            "id": "enc-018",
+            "name": "Double Encoded XSS",
+            "description": "Detects double URL encoded XSS characters",
+            "pattern": "(?:%253c|%253e|%2522|%2527|%252f|%255c)",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["xss", "encoding", "evasion"]
+        },
+        {
+            "id": "enc-019",
+            "name": "Unicode Normalization Attack",
+            "description": "Detects Unicode normalization bypass",
+            "pattern": "(?:\\u202e|\\u200b|\\u200c|\\u200d|\\ufeff|\\u00a0)",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "high",
+            "tags": ["encoding", "unicode"]
+        },
+        {
+            "id": "enc-020",
+            "name": "JSFuck Obfuscation",
+            "description": "Detects JSFuck encoded JavaScript",
+            "pattern": "(?:\\[!\\+\\[\\]\\]|\\(!\\[\\]\\+\\[\\]\\)|\\[\\]\\[\\[\\]\\]|\\+\\[\\]|!\\[\\])",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["xss", "encoding", "obfuscation"]
+        },
+        {
+            "id": "enc-021",
+            "name": "JSON Encoded Attack",
+            "description": "Detects JSON unicode escape sequences",
+            "pattern": "(?:\\\\u003[cCeE]|\\\\u002[27fF]|\\\\u005[cC]|\\\\u000[aAdD])",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "high",
+            "tags": ["encoding", "json"]
+        },
+        {
+            "id": "enc-022",
+            "name": "Charset Manipulation",
+            "description": "Detects charset header manipulation attempts",
+            "pattern": "(?i)(?:charset\\s*=\\s*(?:utf-7|us-ascii|iso-2022|euc-|shift[-_]?jis|big5|gb(?:2312|k|18030)))",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "high",
+            "tags": ["encoding", "evasion"]
+        },
+        {
+            "id": "enc-023",
+            "name": "PHP Wrapper Encoding",
+            "description": "Detects PHP stream wrapper with encoding",
+            "pattern": "(?i)(?:php://filter/.*convert\\.base64|php://input|data://text/plain;base64,|expect://)",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["lfi", "encoding", "php"]
+        },
+        {
+            "id": "enc-024",
+            "name": "Quadruple URL Encoding",
+            "description": "Detects quadruple URL encoding bypass",
+            "pattern": "%25252[0-9a-fA-F]",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["evasion", "encoding"]
+        }
+    ]
+}

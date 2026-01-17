@@ -1,0 +1,34 @@
+# Logs
+*.log
+/var/log/waf/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+venv/
+.env
+
+# Test files (not for production)
+a.py
+test_waf.py
+
+# Documentation (separate repo or built docs)
+docs/
+nginx/
+
+# Backup files
+*.bak
+*.backup

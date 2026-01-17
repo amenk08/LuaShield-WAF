@@ -1,0 +1,287 @@
+{
+    "name": "SQL Injection Rules",
+    "version": "2.0.0",
+    "description": "Enhanced detection rules for SQL injection attacks",
+    "rules": [
+        {
+            "id": "sqli-001",
+            "name": "Union Select Injection",
+            "description": "Detects UNION-based SQL injection",
+            "pattern": "(?i)(?:union[\\s\\/\\*]+(?:all|distinct)?[\\s\\/\\*]*select)",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["sqli", "owasp-a03"]
+        },
+        {
+            "id": "sqli-002",
+            "name": "SQL Comment Injection",
+            "description": "Detects SQL comment markers",
+            "pattern": "(?:--|#|\\/\\*|\\*\\/|;--)",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "high",
+            "tags": ["sqli"]
+        },
+        {
+            "id": "sqli-003",
+            "name": "Boolean Injection",
+            "description": "Detects boolean-based blind SQL injection",
+            "pattern": "(?i)(?:'|\")\\s*(?:or|and|xor)\\s+['\"]?\\d+['\"]?\\s*[=<>!]+\\s*['\"]?\\d+",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["sqli", "blind"]
+        },
+        {
+            "id": "sqli-004",
+            "name": "SQL Functions",
+            "description": "Detects dangerous SQL functions",
+            "pattern": "(?i)(?:concat(?:_ws)?|char|substring|ascii|bin|hex|unhex|benchmark|sleep|load_file|into\\s+(?:out|dump)file|@@version|version\\(\\)|user\\(\\)|database\\(\\)|schema\\(\\))\\s*\\(",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["sqli"]
+        },
+        {
+            "id": "sqli-005",
+            "name": "SQL Keywords",
+            "description": "Detects SQL statement keywords",
+            "pattern": "(?i)(?:^|[\\s;])(?:select|insert|update|delete|drop|truncate|alter|create|exec(?:ute)?|merge|replace|grant|revoke)\\s+",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["sqli"]
+        },
+        {
+            "id": "sqli-006",
+            "name": "Tautology Attack",
+            "description": "Detects SQL tautology attacks like 'a'='a' or 1=1",
+            "pattern": "(?i)(?:['\"]\\s*(?:or|and)\\s*['\"]?[^'\"]+['\"]?\\s*=\\s*['\"]?[^'\"]+['\"]?|\\s+or\\s+['\"]?\\d+['\"]?\\s*=\\s*['\"]?\\d+|'\\s*=\\s*'|\"\\s*=\\s*\"|1\\s*=\\s*1|'a'\\s*=\\s*'a')",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["sqli"]
+        },
+        {
+            "id": "sqli-007",
+            "name": "Order By Injection",
+            "description": "Detects ORDER BY clause injection",
+            "pattern": "(?i)order\\s+by\\s+(?:\\d+|[a-z_]+\\s*(?:asc|desc)?\\s*,?)+(?:\\s*--|#|/\\*)?",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "high",
+            "tags": ["sqli"]
+        },
+        {
+            "id": "sqli-008",
+            "name": "Information Schema Access",
+            "description": "Detects access to system tables",
+            "pattern": "(?i)(?:information_schema|sysobjects|syscolumns|mysql\\.(?:user|db)|pg_(?:catalog|tables|columns|database)|sqlite_master|sys\\.(?:tables|columns|databases)|all_tables|user_tables|dba_tables)",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["sqli", "recon"]
+        },
+        {
+            "id": "sqli-009",
+            "name": "Stacked Queries",
+            "description": "Detects stacked SQL queries",
+            "pattern": "(?i);\\s*(?:select|insert|update|delete|drop|create|alter|exec|declare|set|waitfor)",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["sqli"]
+        },
+        {
+            "id": "sqli-010",
+            "name": "Time-based Blind",
+            "description": "Detects time-based blind SQL injection",
+            "pattern": "(?i)(?:sleep\\s*\\(|waitfor\\s+delay|benchmark\\s*\\(|pg_sleep\\s*\\(|dbms_pipe\\.receive_message)",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["sqli", "blind"]
+        },
+        {
+            "id": "sqli-011",
+            "name": "SQL Error Based",
+            "description": "Detects error-based SQL injection techniques",
+            "pattern": "(?i)(?:extractvalue|updatexml|floor\\s*\\(\\s*rand|exp\\s*\\(~|geometrycollection|multipoint|polygon|linestring|multipolygon|multilinestring)\\s*\\(",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["sqli", "error-based"]
+        },
+        {
+            "id": "sqli-012",
+            "name": "SQL Hex Injection",
+            "description": "Detects hex encoded SQL injection",
+            "pattern": "(?i)(?:0x[0-9a-f]{8,}|x'[0-9a-f]+')",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "high",
+            "tags": ["sqli", "evasion"]
+        },
+        {
+            "id": "sqli-013",
+            "name": "SQL Like Injection",
+            "description": "Detects LIKE clause wildcards abuse",
+            "pattern": "(?i)like\\s+['\"][%_]",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "medium",
+            "tags": ["sqli"]
+        },
+        {
+            "id": "sqli-014",
+            "name": "SQL Having Injection",
+            "description": "Detects HAVING clause injection",
+            "pattern": "(?i)having\\s+['\"]?\\d+['\"]?\\s*[=<>]",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "high",
+            "tags": ["sqli"]
+        },
+        {
+            "id": "sqli-015",
+            "name": "SQL Group By Injection",
+            "description": "Detects GROUP BY clause injection",
+            "pattern": "(?i)group\\s+by\\s+\\d+(?:\\s*--|#|/\\*)?",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "high",
+            "tags": ["sqli"]
+        },
+        {
+            "id": "sqli-016",
+            "name": "SQL Subquery Attack",
+            "description": "Detects subquery-based injection",
+            "pattern": "(?i)\\(\\s*select\\s+[^)]+\\s+from\\s+[^)]+\\)",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["sqli"]
+        },
+        {
+            "id": "sqli-017",
+            "name": "SQL Case When Attack",
+            "description": "Detects CASE/WHEN based attacks",
+            "pattern": "(?i)case\\s+when\\s+.+\\s+then\\s+.+\\s+(?:else|end)",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "high",
+            "tags": ["sqli", "blind"]
+        },
+        {
+            "id": "sqli-018",
+            "name": "SQL If Statement",
+            "description": "Detects IF-based conditional injection",
+            "pattern": "(?i)(?:if\\s*\\([^)]+,[^)]+,[^)]+\\)|ifnull\\s*\\(|nullif\\s*\\(|coalesce\\s*\\()",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "high",
+            "tags": ["sqli", "blind"]
+        },
+        {
+            "id": "sqli-019",
+            "name": "SQL Procedure Execution",
+            "description": "Detects stored procedure execution",
+            "pattern": "(?i)(?:exec(?:ute)?\\s+(?:sp_|xp_)|call\\s+\\w+\\s*\\(|dbms_\\w+\\.|utl_\\w+\\.)",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["sqli", "rce"]
+        },
+        {
+            "id": "sqli-020",
+            "name": "SQL xp_cmdshell",
+            "description": "Detects xp_cmdshell command execution",
+            "pattern": "(?i)xp_cmdshell\\s*\\(",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["sqli", "rce"]
+        },
+        {
+            "id": "sqli-021",
+            "name": "SQL Comment Evasion",
+            "description": "Detects inline comment evasion",
+            "pattern": "(?i)(?:/\\*!\\d*|/\\*\\+|--\\+|#\\s*-)",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "high",
+            "tags": ["sqli", "evasion"]
+        },
+        {
+            "id": "sqli-022",
+            "name": "SQL Keyword in Quote",
+            "description": "Detects SQL keywords near quotes",
+            "pattern": "(?i)['\"]\\s*(?:select|union|insert|update|delete|drop)\\s+",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["sqli"]
+        },
+        {
+            "id": "sqli-023",
+            "name": "SQL Into Outfile",
+            "description": "Detects file write attempts",
+            "pattern": "(?i)(?:into\\s+(?:out|dump)file|load\\s+data\\s+(?:local\\s+)?infile)",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["sqli", "file-write"]
+        },
+        {
+            "id": "sqli-024",
+            "name": "NoSQL Injection",
+            "description": "Detects NoSQL injection patterns",
+            "pattern": "(?i)(?:\\$(?:where|regex|ne|eq|gt|lt|gte|lte|nin|in|or|and|not|exists|type|mod|slice|elemMatch)\\b|\\{\\s*['\"]?\\$)",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "critical",
+            "tags": ["nosql", "injection"]
+        },
+        {
+            "id": "sqli-025",
+            "name": "SQL Bitwise Operations",
+            "description": "Detects bitwise operation attacks",
+            "pattern": "(?i)(?:\\s+(?:&|\\||\\^|<<|>>)\\s*\\d+|~\\s*\\d+)",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "medium",
+            "tags": ["sqli"]
+        },
+        {
+            "id": "sqli-026",
+            "name": "SQL Null Comparison",
+            "description": "Detects NULL comparison attacks",
+            "pattern": "(?i)(?:is\\s+(?:not\\s+)?null|isnull\\s*\\(|coalesce\\s*\\()",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "medium",
+            "tags": ["sqli"]
+        },
+        {
+            "id": "sqli-027",
+            "name": "ORM Injection",
+            "description": "Detects ORM-specific injection patterns",
+            "pattern": "(?i)(?:__proto__|constructor|prototype|Object\\.assign|JSON\\.parse|findOne|findAll|where\\s*:\\s*\\{)",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "high",
+            "tags": ["injection", "orm"]
+        },
+        {
+            "id": "sqli-028",
+            "name": "SQL LIMIT OFFSET",
+            "description": "Detects LIMIT/OFFSET manipulation",
+            "pattern": "(?i)(?:limit\\s+\\d+\\s*,\\s*\\d+|offset\\s+\\d+)\\s*(?:--|#|/\\*)?",
+            "operator": "regex",
+            "enabled": true,
+            "severity": "medium",
+            "tags": ["sqli"]
+        }
+    ]
+}

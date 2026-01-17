@@ -1,0 +1,31 @@
+{
+    "name": "Path Traversal Rules",
+    "version": "2.0.0",
+    "description": "Enhanced detection rules for path traversal attacks",
+    "rules": [
+        {"id": "pt-001", "name": "Directory Traversal", "description": "Detects ../ and ..\\ patterns", "pattern": "(?:\\.\\./|\\.\\.\\\\\\.?\\.?)", "operator": "regex", "enabled": true, "severity": "critical", "tags": ["lfi", "path-traversal"]},
+        {"id": "pt-002", "name": "URL Encoded Traversal", "description": "Detects URL encoded traversal", "pattern": "(?i)(?:%2e%2e[%2f%5c]|%2e%2e/|\\.\\.%2f|%2e%2e\\\\|\\.\\.%5c)", "operator": "regex", "enabled": true, "severity": "critical", "tags": ["lfi", "path-traversal"]},
+        {"id": "pt-003", "name": "Double Encoded Traversal", "description": "Detects double URL encoding", "pattern": "(?i)(?:%252e%252e%252f|%252e%252e%255c)", "operator": "regex", "enabled": true, "severity": "critical", "tags": ["lfi", "evasion"]},
+        {"id": "pt-004", "name": "System Files Linux", "description": "Detects access to Linux system files", "pattern": "(?i)(?:/etc/(?:passwd|shadow|group|hosts|sudoers|ssh/)|/proc/(?:self|version|environ)|/var/log/)", "operator": "regex", "enabled": true, "severity": "critical", "tags": ["lfi"]},
+        {"id": "pt-005", "name": "System Files Windows", "description": "Detects Windows system files", "pattern": "(?i)(?:windows/system32|boot\\.ini|win\\.ini|system\\.ini|autoexec\\.bat|sam|ntuser\\.dat)", "operator": "regex", "enabled": true, "severity": "critical", "tags": ["lfi"]},
+        {"id": "pt-006", "name": "Web Config Files", "description": "Detects web configuration files", "pattern": "(?i)(?:\\.htaccess|\\.htpasswd|\\.env|config\\.php|wp-config\\.php|web\\.config|appsettings\\.json)", "operator": "regex", "enabled": true, "severity": "critical", "tags": ["lfi", "config"]},
+        {"id": "pt-007", "name": "Version Control", "description": "Detects version control directories", "pattern": "(?i)(?:/\\.git/|/\\.svn/|/\\.hg/|\\.gitconfig|HEAD|refs/|objects/)", "operator": "regex", "enabled": true, "severity": "critical", "tags": ["lfi", "disclosure"]},
+        {"id": "pt-008", "name": "Backup Files", "description": "Detects backup files", "pattern": "(?i)(?:\\.(?:bak|old|backup|orig|save|swp)$|~$|\\.sql$|\\.tar$|\\.gz$|\\.zip$)", "operator": "regex", "enabled": true, "severity": "high", "tags": ["lfi", "backup"]},
+        {"id": "pt-009", "name": "PHP Wrappers", "description": "Detects PHP stream wrappers", "pattern": "(?i)(?:php://(?:input|filter|data)|expect://|phar://|zip://)", "operator": "regex", "enabled": true, "severity": "critical", "tags": ["lfi", "rce"]},
+        {"id": "pt-010", "name": "Absolute Path Linux", "description": "Detects absolute Linux paths", "pattern": "(?:^|[=&?])\\s*/(?:etc|var|tmp|usr|home|root|proc)/", "operator": "regex", "enabled": true, "severity": "high", "tags": ["lfi"]},
+        {"id": "pt-011", "name": "Absolute Path Windows", "description": "Detects absolute Windows paths", "pattern": "(?i)(?:^|[=&?])\\s*[a-z]:\\\\", "operator": "regex", "enabled": true, "severity": "high", "tags": ["lfi"]},
+        {"id": "pt-012", "name": "Log File Access", "description": "Detects log files", "pattern": "(?i)(?:/var/log/|access[_.]log|error[_.]log|\\.log$)", "operator": "regex", "enabled": true, "severity": "high", "tags": ["lfi"]},
+        {"id": "pt-013", "name": "Source Code Files", "description": "Detects source code files", "pattern": "(?i)(?:\\.(?:php|asp|jsp|py|rb)$|/WEB-INF/|/src/|/includes?/)", "operator": "regex", "enabled": true, "severity": "high", "tags": ["lfi"]},
+        {"id": "pt-014", "name": "Database Files", "description": "Detects database files", "pattern": "(?i)(?:\\.(?:sql|sqlite3?|db|mdb)$|dump\\.sql|database\\.db)", "operator": "regex", "enabled": true, "severity": "critical", "tags": ["lfi"]},
+        {"id": "pt-015", "name": "SSH Keys", "description": "Detects SSH key files", "pattern": "(?i)(?:\\.ssh/(?:id_rsa|authorized_keys|known_hosts)|id_rsa)", "operator": "regex", "enabled": true, "severity": "critical", "tags": ["lfi", "credential"]},
+        {"id": "pt-016", "name": "Certificate Files", "description": "Detects certificate files", "pattern": "(?i)(?:\\.(?:pem|key|crt|p12|pfx)$|private[_-]?key|server\\.key)", "operator": "regex", "enabled": true, "severity": "critical", "tags": ["lfi"]},
+        {"id": "pt-017", "name": "AWS Credentials", "description": "Detects cloud credential files", "pattern": "(?i)(?:\\.aws/credentials|aws_access_key|serviceAccountKey|kubeconfig)", "operator": "regex", "enabled": true, "severity": "critical", "tags": ["lfi", "cloud"]},
+        {"id": "pt-018", "name": "Container Files", "description": "Detects container config files", "pattern": "(?i)(?:dockerfile|docker-compose\\.ya?ml|/run/secrets/)", "operator": "regex", "enabled": true, "severity": "critical", "tags": ["lfi", "container"]},
+        {"id": "pt-019", "name": "Unicode Traversal", "description": "Detects Unicode path traversal", "pattern": "(?:%c0%ae|%c1%9c|%uff0e%uff0e|%u002e%u002e)", "operator": "regex", "enabled": true, "severity": "critical", "tags": ["lfi", "evasion"]},
+        {"id": "pt-020", "name": "Null Byte Injection", "description": "Detects null byte truncation", "pattern": "(?:%00|\\\\x00).*\\.", "operator": "regex", "enabled": true, "severity": "critical", "tags": ["lfi"]},
+        {"id": "pt-021", "name": "UNC Path", "description": "Detects UNC path access", "pattern": "(?:\\\\\\\\[a-zA-Z0-9_.\\-]+\\\\)", "operator": "regex", "enabled": true, "severity": "high", "tags": ["lfi", "smb"]},
+        {"id": "pt-022", "name": "CI/CD Config", "description": "Detects CI/CD config files", "pattern": "(?i)(?:\\.(?:travis|gitlab-ci|github)\\.ya?ml|Jenkinsfile)", "operator": "regex", "enabled": true, "severity": "high", "tags": ["lfi"]},
+        {"id": "pt-023", "name": "Session Files", "description": "Detects session storage", "pattern": "(?i)(?:/tmp/sess_|/var/lib/php/sessions/|sess_[a-f0-9]{26,40})", "operator": "regex", "enabled": true, "severity": "high", "tags": ["lfi"]},
+        {"id": "pt-024", "name": "IDE Config", "description": "Detects IDE config files", "pattern": "(?i)(?:\\.idea/|\\.vscode/|\\.project|\\.classpath)", "operator": "regex", "enabled": true, "severity": "medium", "tags": ["lfi"]}
+    ]
+}
